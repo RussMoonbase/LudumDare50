@@ -356,7 +356,7 @@ MonoBehaviour:
   m_LookaheadTime: 0
   m_LookaheadSmoothing: 0
   m_LookaheadIgnoreY: 0
-  m_HorizontalDamping: 0.5
+  m_HorizontalDamping: 1.5
   m_VerticalDamping: 0.5
   m_ScreenX: 0.5
   m_ScreenY: 0.5
@@ -2094,7 +2094,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7455811701043991320, guid: 5a5ab667d5e8cc545a5cb1d9ec7eb02a, type: 3}
       propertyPath: m_Drag
-      value: 1
+      value: 1.25
       objectReference: {fileID: 0}
     - target: {fileID: 7455811701043991321, guid: 5a5ab667d5e8cc545a5cb1d9ec7eb02a, type: 3}
       propertyPath: m_RootOrder
@@ -2178,7 +2178,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7455811701172448381, guid: 5a5ab667d5e8cc545a5cb1d9ec7eb02a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 8.000025
+      value: -8.999975
       objectReference: {fileID: 0}
     - target: {fileID: 7455811701729113058, guid: 5a5ab667d5e8cc545a5cb1d9ec7eb02a, type: 3}
       propertyPath: m_Name
@@ -2186,7 +2186,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7455811701729113059, guid: 5a5ab667d5e8cc545a5cb1d9ec7eb02a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 8.000024
+      value: -8.999976
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5a5ab667d5e8cc545a5cb1d9ec7eb02a, type: 3}
