@@ -40,15 +40,22 @@ public class CarController : MonoBehaviour
       if (Input.GetKey(KeyCode.L))
       {
          _driftInput = 1.0f;
+         _rigidbody.drag = 1.5f;
       }
       else
       {
          _driftInput = 0.0f;
+
+         if (_rigidbody.drag != 1.0f)
+         {
+            _rigidbody.drag = 1.0f;
+         }
       }
 
       if (Input.GetKey(KeyCode.J))
       {
          _driftInput = -1.0f;
+         _rigidbody.drag = 1.5f;
       }
 
 
@@ -82,27 +89,42 @@ public class CarController : MonoBehaviour
       if (_forwardInput != 0)
       {
          _rigidbody.AddForce(this.transform.forward * _forwardInput * _accelSpeed);
+         if (_rigidbody.velocity.magnitude > 524.0f)
+         {
+            _rigidbody.velocity = Vector3.ClampMagnitude(_rigidbody.velocity, 524.0f);
+         }
+
       }
 
       
       if (_rightInput != 0)
       {
          //_rigidbody.AddTorque(this.transform.up * _rightInput * _turnSpeed);
-         _rigidbody.AddForceAtPosition(this.transform.right * -_rightInput * _turnSpeed, transform.TransformPoint(_wheelTurnPoints[0].localPosition));
-         _rigidbody.AddForceAtPosition(this.transform.right * -_rightInput * _turnSpeed, transform.TransformPoint(_wheelTurnPoints[1].localPosition));
+         _rigidbody.AddForceAtPosition(this.transform.right * _rightInput * _turnSpeed, transform.TransformPoint(_wheelTurnPoints[0].localPosition));
+         _rigidbody.AddForceAtPosition(this.transform.right * _rightInput * _turnSpeed, transform.TransformPoint(_wheelTurnPoints[1].localPosition));
       }
 
       if (_driftInput > 0.0f)
       {
          //_rigidbody.AddForceAtPosition(this.transform.right * -_driftInput * _driftForceAmount, transform.TransformPoint(_driftPoints[0].localPosition));
          //_rigidbody.AddForceAtPosition(this.transform.right * -_driftInput * _driftForceAmount, transform.TransformPoint(_driftPoints[1].localPosition));
+         _rigidbody.AddForceAtPosition(this.transform.right * _driftForceConstant * -_driftPower, transform.TransformPoint(_driftPoints[0].localPosition));
          _rigidbody.AddForceAtPosition(this.transform.right * _driftForceConstant * -_driftPower, transform.TransformPoint(_driftPoints[1].localPosition));
+
       }
 
       if (_driftInput < 0.0f)
       {
+         _rigidbody.AddForceAtPosition(this.transform.right * _driftForceConstant * _driftPower, transform.TransformPoint(_driftPoints[0].localPosition));
          _rigidbody.AddForceAtPosition(this.transform.right * _driftForceConstant * _driftPower, transform.TransformPoint(_driftPoints[1].localPosition));
       }
+
+      Debug.Log("Car Speed = " + _rigidbody.velocity.magnitude);
+   }
+
+   public float GetCurrentSpeed()
+   {
+      return _rigidbody.velocity.magnitude;
    }
 
    private void OnDrawGizmos()
