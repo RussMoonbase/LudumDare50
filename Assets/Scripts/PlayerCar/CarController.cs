@@ -8,11 +8,13 @@ public class CarController : MonoBehaviour
    private float _accelSpeed;
    [SerializeField] private float _maxSpeed;
    [SerializeField] private float _turnSpeed;
-   [SerializeField] private float _driftForceAmount;
+   [SerializeField] private float _driftForceConstant;
+   [SerializeField] private float _driftPower;
 
    [SerializeField] private Rigidbody _rigidbody;
    [SerializeField] private Transform[] _wheelTurnPoints;
    [SerializeField] private Transform[] _driftPoints;
+   [SerializeField] private Vector3 _carCenterOfMass;
 
    private float _forwardInput;
    private float _rightInput;
@@ -24,11 +26,14 @@ public class CarController : MonoBehaviour
    void Start()
    {
       _accelTimer = 0.0f;
+      _rigidbody.centerOfMass = _carCenterOfMass;
    }
 
    // Update is called once per frame
    void Update()
    {
+      
+
       _forwardInput = Input.GetAxis("Vertical");
       _rightInput = Input.GetAxis("Horizontal");
 
@@ -40,7 +45,14 @@ public class CarController : MonoBehaviour
       {
          _driftInput = 0.0f;
       }
-      Debug.Log("Drift Input = " + _driftInput);
+
+      if (Input.GetKey(KeyCode.J))
+      {
+         _driftInput = -1.0f;
+      }
+
+
+      //Debug.Log("Drift Input = " + _driftInput);
       
       if (_forwardInput > 0)
       {
@@ -66,10 +78,12 @@ public class CarController : MonoBehaviour
 
    private void FixedUpdate()
    {
+
       if (_forwardInput != 0)
       {
          _rigidbody.AddForce(this.transform.forward * _forwardInput * _accelSpeed);
       }
+
       
       if (_rightInput != 0)
       {
@@ -82,7 +96,18 @@ public class CarController : MonoBehaviour
       {
          //_rigidbody.AddForceAtPosition(this.transform.right * -_driftInput * _driftForceAmount, transform.TransformPoint(_driftPoints[0].localPosition));
          //_rigidbody.AddForceAtPosition(this.transform.right * -_driftInput * _driftForceAmount, transform.TransformPoint(_driftPoints[1].localPosition));
-         _rigidbody.AddForceAtPosition(this.transform.right * _driftForceAmount * -30.0f, transform.TransformPoint(_driftPoints[2].localPosition));
+         _rigidbody.AddForceAtPosition(this.transform.right * _driftForceConstant * -_driftPower, transform.TransformPoint(_driftPoints[1].localPosition));
       }
+
+      if (_driftInput < 0.0f)
+      {
+         _rigidbody.AddForceAtPosition(this.transform.right * _driftForceConstant * _driftPower, transform.TransformPoint(_driftPoints[1].localPosition));
+      }
+   }
+
+   private void OnDrawGizmos()
+   {
+      Gizmos.color = Color.red;
+      Gizmos.DrawSphere(this.transform.position + transform.rotation * _carCenterOfMass, 5.0f);
    }
 }
