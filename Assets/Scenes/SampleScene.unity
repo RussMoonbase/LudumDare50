@@ -235,8 +235,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _carRigidbody: {fileID: 121201028}
-  _springConstant: 0
-  _dampingAmount: 0
+  _springConstant: 8000
+  _dampingConstant: 500
+  _springRestLength: 5
 --- !u!1 &425318639
 GameObject:
   m_ObjectHideFlags: 0
@@ -282,8 +283,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _carRigidbody: {fileID: 121201028}
-  _springConstant: 0
-  _dampingAmount: 0
+  _springConstant: 8000
+  _dampingConstant: 500
+  _springRestLength: 5
 --- !u!1001 &506120155
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -391,8 +393,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _carRigidbody: {fileID: 121201028}
-  _springConstant: 0
-  _dampingAmount: 0
+  _springConstant: 8000
+  _dampingConstant: 500
+  _springRestLength: 5
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -616,8 +619,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _carRigidbody: {fileID: 121201028}
-  _springConstant: 0
-  _dampingAmount: 0
+  _springConstant: 8000
+  _dampingConstant: 500
+  _springRestLength: 5
 --- !u!1 &1674302379
 GameObject:
   m_ObjectHideFlags: 0

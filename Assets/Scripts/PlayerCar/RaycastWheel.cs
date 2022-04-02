@@ -6,7 +6,8 @@ public class RaycastWheel : MonoBehaviour
 {
    [SerializeField] private Rigidbody _carRigidbody;
    [SerializeField] private float _springConstant;
-   [SerializeField] private float _dampingAmount;
+   [SerializeField] private float _dampingConstant;
+   [SerializeField] private float _springRestLength;
    private int _groundLayerMask; 
 
    private float _springForce = 0;
@@ -32,12 +33,14 @@ public class RaycastWheel : MonoBehaviour
       if (Physics.Raycast(this.transform.position, -Vector3.up, out _hit, 10.0f, _groundLayerMask))
       {
          Debug.DrawRay(this.transform.position, -Vector3.up * _hit.distance, Color.yellow);
-         Debug.Log(this.gameObject.name + " ray cast hit");
+         _springForce = -_springConstant * (_hit.distance - _springRestLength);
+         _dampingForce = -_dampingConstant * _carRigidbody.GetPointVelocity(transform.TransformPoint(this.transform.localPosition)).y;
+         _finalForce = _springForce + _dampingForce;
+         _carRigidbody.AddForceAtPosition(_finalForce * Vector3.up, transform.TransformPoint(this.transform.localPosition));
       }
       else
       {
-         //Debug.DrawRay(this.transform.localPosition, -Vector3.up * 500.0f, Color.gray);
-         Debug.Log(this.gameObject.name + " ray cast DID NOT hit");
+         Debug.DrawRay(this.transform.position, -Vector3.up * 10.0f, Color.gray);
       }
    }
 }
