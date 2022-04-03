@@ -6,6 +6,8 @@ using UnityEngine.Events;
 public class InAirChecker : MonoBehaviour
 {
    [SerializeField] private float _maxRayLength;
+   [SerializeField] private Transform _carModelTransform;
+   [SerializeField] private Vector3 _carModelOffset;
    private RaycastHit _hit;
    private int _groundLayerMask;
    private bool isInAir = false;
@@ -31,6 +33,7 @@ public class InAirChecker : MonoBehaviour
       if (Physics.Raycast(this.transform.position, -Vector3.up, out _hit, _maxRayLength, _groundLayerMask))
       {
          Debug.DrawRay(this.transform.position, -Vector3.up * _hit.distance, Color.green);
+         //_carModelTransform.position = _hit.point + _carModelOffset;
 
          if (isInAir)
          {

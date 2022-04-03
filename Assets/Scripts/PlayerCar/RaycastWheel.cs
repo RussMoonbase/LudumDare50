@@ -16,6 +16,7 @@ public class RaycastWheel : MonoBehaviour
    private float _finalForce = 0;
 
    private RaycastHit _hit;
+   private Vector3 _lastHitPosition;
 
    // Start is called before the first frame update
    void Start()

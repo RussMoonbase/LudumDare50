@@ -37,7 +37,15 @@ public class CarController : MonoBehaviour
    void Update()
    {
 
-      _forwardInput = Input.GetAxis("Vertical");
+      if (_isGrounded)
+      {
+         _forwardInput = Input.GetAxis("Vertical");
+      }
+      else
+      {
+         _forwardInput = Input.GetAxis("Vertical") * 0.2f;
+      }
+      
 
       _rightInput = Input.GetAxis("Horizontal");
 
@@ -103,15 +111,12 @@ public class CarController : MonoBehaviour
       
       if (_rightInput != 0)
       {
-         //_rigidbody.AddTorque(this.transform.up * _rightInput * _turnSpeed);
          _rigidbody.AddForceAtPosition(this.transform.right * _rightInput * _turnSpeed, transform.TransformPoint(_wheelTurnPoints[0].localPosition));
          _rigidbody.AddForceAtPosition(this.transform.right * _rightInput * _turnSpeed, transform.TransformPoint(_wheelTurnPoints[1].localPosition));
       }
 
       if (_driftInput > 0.0f)
       {
-         //_rigidbody.AddForceAtPosition(this.transform.right * -_driftInput * _driftForceAmount, transform.TransformPoint(_driftPoints[0].localPosition));
-         //_rigidbody.AddForceAtPosition(this.transform.right * -_driftInput * _driftForceAmount, transform.TransformPoint(_driftPoints[1].localPosition));
          _rigidbody.AddForceAtPosition(this.transform.right * _driftForceConstant * -_driftPower, transform.TransformPoint(_driftPoints[0].localPosition));
          _rigidbody.AddForceAtPosition(this.transform.right * _driftForceConstant * -_driftPower, transform.TransformPoint(_driftPoints[1].localPosition));
 
