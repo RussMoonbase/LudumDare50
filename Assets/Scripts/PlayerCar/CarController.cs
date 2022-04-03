@@ -6,6 +6,7 @@ public class CarController : MonoBehaviour
 {
    public AnimationCurve accelCurve;
    private float _accelSpeed;
+   [SerializeField] private bool _isPlayerCar;
    [SerializeField] private float _maxSpeed;
    [SerializeField] private float _turnSpeed;
    [SerializeField] private float _driftForceConstant;
@@ -16,6 +17,7 @@ public class CarController : MonoBehaviour
    [SerializeField] private Transform[] _wheelTurnPoints;
    [SerializeField] private Transform[] _driftPoints;
    [SerializeField] private Vector3 _carCenterOfMass;
+   [SerializeField] private Transform _rabbitTransform;
 
    private float _forwardInput;
    private float _rightInput;
@@ -44,42 +46,54 @@ public class CarController : MonoBehaviour
       if (!_canCarMove)
          return;
 
-      if (_isGrounded)
+      if (_isPlayerCar)
       {
-         _forwardInput = Input.GetAxis("Vertical");
+         if (_isGrounded)
+         {
+            _forwardInput = Input.GetAxis("Vertical");
+         }
+         else
+         {
+            if (!_canBeLaunched)
+            {
+               _forwardInput = Input.GetAxis("Vertical") * 0.2f;
+            }
+
+         }
+         _rightInput = Input.GetAxis("Horizontal");
+
+         if (Input.GetKey(KeyCode.L))
+         {
+            _driftInput = 1.0f;
+            _rigidbody.drag = 1.5f;
+         }
+         else
+         {
+            _driftInput = 0.0f;
+
+            if (_rigidbody.drag != 1.0f)
+            {
+               _rigidbody.drag = 1.0f;
+            }
+         }
+
+         if (Input.GetKey(KeyCode.J))
+         {
+            _driftInput = -1.0f;
+            _rigidbody.drag = 1.5f;
+         }
       }
       else
       {
-         if (!_canBeLaunched)
+         Debug.Log("IS Ai CAr");
+         _forwardInput = 0.75f;
+
+         if (_rabbitTransform)
          {
-            _forwardInput = Input.GetAxis("Vertical") * 0.2f;
-         }
-         
-      }
-      
-
-      _rightInput = Input.GetAxis("Horizontal");
-
-      if (Input.GetKey(KeyCode.L))
-      {
-         _driftInput = 1.0f;
-         _rigidbody.drag = 1.5f;
-      }
-      else
-      {
-         _driftInput = 0.0f;
-
-         if (_rigidbody.drag != 1.0f)
-         {
-            _rigidbody.drag = 1.0f;
+            UpdateAiCarSteering();
          }
       }
 
-      if (Input.GetKey(KeyCode.J))
-      {
-         _driftInput = -1.0f;
-         _rigidbody.drag = 1.5f;
-      }
 
 
       //Debug.Log("Drift Input = " + _driftInput);
@@ -171,6 +185,22 @@ public class CarController : MonoBehaviour
    public void StartRace()
    {
       _canCarMove = true;
+   }
+
+   private void UpdateAiCarSteering()
+   {
+      Vector3 relative = transform.InverseTransformPoint(_rabbitTransform.position);
+      float steerAngle = Mathf.Atan2(relative.x, relative.z) * Mathf.Rad2Deg;
+      float steerAmount = Mathf.Clamp(steerAngle * 0.5f, -1.0f, 1.0f);
+      if (Mathf.Abs(steerAmount) > 0.75f)
+      {
+         _forwardInput = 0.35f;
+      }
+      else if (Mathf.Abs(steerAmount) < 0.25f)
+      {
+         _forwardInput = 0.85f;
+      }
+      _rightInput = steerAmount;
    }
 
    //private void OnDrawGizmos()
