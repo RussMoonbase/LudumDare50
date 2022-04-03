@@ -26,6 +26,8 @@ public class CarController : MonoBehaviour
    private bool _isGrounded = true;
    private bool _canBeLaunched = false;
 
+   private bool _canCarMove = false;
+
    // Start is called before the first frame update
    void Start()
    {
@@ -33,11 +35,14 @@ public class CarController : MonoBehaviour
       _rigidbody.centerOfMass = _carCenterOfMass;
       _isGrounded = true;
       _canBeLaunched = false;
+      _canCarMove = false;
    }
 
    // Update is called once per frame
    void Update()
    {
+      if (!_canCarMove)
+         return;
 
       if (_isGrounded)
       {
@@ -103,6 +108,8 @@ public class CarController : MonoBehaviour
 
    private void FixedUpdate()
    {
+      if (!_canCarMove)
+         return;
 
       if (_forwardInput != 0)
       {
@@ -159,6 +166,11 @@ public class CarController : MonoBehaviour
       _rigidbody.AddForce(this.transform.forward * 200000.0f, ForceMode.Impulse);
       _rigidbody.AddForce(this.transform.up * 200000.0f, ForceMode.Impulse);
       _driftPower *= 3.0f;
+   }
+
+   public void StartRace()
+   {
+      _canCarMove = true;
    }
 
    //private void OnDrawGizmos()
