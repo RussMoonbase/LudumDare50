@@ -10,6 +10,7 @@ public class CarController : MonoBehaviour
    [SerializeField] private float _turnSpeed;
    [SerializeField] private float _driftForceConstant;
    [SerializeField] private float _driftPower;
+   [SerializeField] private float _downPower;
 
    [SerializeField] private Rigidbody _rigidbody;
    [SerializeField] private Transform[] _wheelTurnPoints;
@@ -22,19 +23,22 @@ public class CarController : MonoBehaviour
    private float _accelTimer = 0;
    private float _driftInput = 0;
 
+   private bool _isGrounded = true;
+
    // Start is called before the first frame update
    void Start()
    {
       _accelTimer = 0.0f;
       _rigidbody.centerOfMass = _carCenterOfMass;
+      _isGrounded = true;
    }
 
    // Update is called once per frame
    void Update()
    {
-      
 
       _forwardInput = Input.GetAxis("Vertical");
+
       _rightInput = Input.GetAxis("Horizontal");
 
       if (Input.GetKey(KeyCode.L))
@@ -119,7 +123,13 @@ public class CarController : MonoBehaviour
          _rigidbody.AddForceAtPosition(this.transform.right * _driftForceConstant * _driftPower, transform.TransformPoint(_driftPoints[1].localPosition));
       }
 
-      Debug.Log("Car Speed = " + _rigidbody.velocity.magnitude);
+      if (!_isGrounded)
+      {
+         _rigidbody.AddForce(-this.transform.up * _downPower);
+         //Debug.Log("IsGround = false");
+      }
+
+      //Debug.Log("Car Speed = " + _rigidbody.velocity.magnitude);
    }
 
    public float GetCurrentSpeed()
@@ -127,9 +137,14 @@ public class CarController : MonoBehaviour
       return _rigidbody.velocity.magnitude;
    }
 
-   private void OnDrawGizmos()
+   public void SetIsGrounded(bool booleanValue)
    {
-      Gizmos.color = Color.red;
-      Gizmos.DrawSphere(this.transform.position + transform.rotation * _carCenterOfMass, 5.0f);
+      _isGrounded = booleanValue;
    }
+
+   //private void OnDrawGizmos()
+   //{
+   //   Gizmos.color = Color.red;
+   //   Gizmos.DrawSphere(this.transform.position + transform.rotation * _carCenterOfMass, 5.0f);
+   //}
 }
