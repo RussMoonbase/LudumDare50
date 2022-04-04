@@ -10,15 +10,21 @@ public class RabbitController : MonoBehaviour
    [SerializeField] private float _moveSpeed;
    private int _targetWaypointIndex = 0;
    private float _distanceToCar = 0.0f;
+
+   private bool _canMove = true;
    // Start is called before the first frame update
    void Start()
    {
+      _canMove = true;
       _targetWaypointIndex = 0;
    }
 
    // Update is called once per frame
    void Update()
    {
+      if (!_canMove)
+         return;
+
       _distanceToCar = (_aiCarTransform.position - this.transform.position).sqrMagnitude;
       if (_distanceToCar < _maxDistanceFromCar)
       {
@@ -36,5 +42,10 @@ public class RabbitController : MonoBehaviour
          }
       }
 
+   }
+
+   public void RaceFinished()
+   {
+      _canMove = false;
    }
 }

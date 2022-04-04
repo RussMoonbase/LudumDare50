@@ -182,9 +182,9 @@ public class CarController : MonoBehaviour
       _driftPower *= 3.0f;
    }
 
-   public void StartRace()
+   public void SetCanCarMove(bool booleanValue)
    {
-      _canCarMove = true;
+      _canCarMove = booleanValue;
    }
 
    private void UpdateAiCarSteering()

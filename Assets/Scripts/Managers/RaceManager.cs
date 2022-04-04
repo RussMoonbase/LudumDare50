@@ -15,7 +15,10 @@ public class RaceManager : MonoBehaviour
    }
 
    public UnityEvent RaceStarted = new UnityEvent();
+   public UnityEvent RaceFinished = new UnityEvent();
    [SerializeField] private int _currentCheckpointNumber = 0;
+   [SerializeField] private int _attachedBombsOnPlayer = 8;
+   private bool _hasRaceFinished = false;
 
    private void Awake()
    {
@@ -25,6 +28,7 @@ public class RaceManager : MonoBehaviour
    // Start is called before the first frame update
    void Start()
    {
+      _hasRaceFinished = false;
       _currentCheckpointNumber = 0;
       StartCoroutine(CountdownToStartRoutine());
    }
@@ -37,12 +41,18 @@ public class RaceManager : MonoBehaviour
 
    private IEnumerator CountdownToStartRoutine()
    {
+      SoundManager.Instance.SetSoundFxAudioClip(SoundManager.SoundFxNames.Countdown);
+      SoundManager.Instance.PlaySoundEffect();
       RaceUIManager.Instance.SetCountDownText("3");
       yield return new WaitForSeconds(1.0f);
+      SoundManager.Instance.PlaySoundEffect();
       RaceUIManager.Instance.SetCountDownText("2");
       yield return new WaitForSeconds(1.0f);
+      SoundManager.Instance.PlaySoundEffect();
       RaceUIManager.Instance.SetCountDownText("1");
       yield return new WaitForSeconds(1.0f);
+      SoundManager.Instance.SetSoundFxAudioClip(SoundManager.SoundFxNames.Go);
+      SoundManager.Instance.PlaySoundEffect();
       RaceUIManager.Instance.SetCountDownText("GO!");
       RaceStarted.Invoke();
       yield return new WaitForSeconds(1.0f);
@@ -60,5 +70,32 @@ public class RaceManager : MonoBehaviour
       {
          _currentCheckpointNumber = newNum;
       }
+   }
+
+   public void FinishLineHitByPlayer()
+   {
+      if (!_hasRaceFinished)
+      {
+         _hasRaceFinished = true;
+
+         if (_attachedBombsOnPlayer == 0)
+         {
+            RaceUIManager.Instance.SetWinOrLoseText(true);
+            SoundManager.Instance.PlayWinSoundEffect();
+         }
+         else
+         {
+            RaceUIManager.Instance.SetWinOrLoseText(false);
+            SoundManager.Instance.PlayLoseSoundEffect();
+         }
+         
+         RaceFinished.Invoke();
+      }
+      
+   }
+
+   public void SubtractBombAmount()
+   {
+      --_attachedBombsOnPlayer;
    }
 }

@@ -23,6 +23,7 @@ public class BombLogic : MonoBehaviour
 
       if (other.GetComponent<Rigidbody>())
       {
+         RaceManager.Instance.SubtractBombAmount();
          Rigidbody rBody = other.GetComponent<Rigidbody>();
          rBody.isKinematic = false;
          rBody.AddExplosionForce(2000.0f, other.transform.position, 5.0f);

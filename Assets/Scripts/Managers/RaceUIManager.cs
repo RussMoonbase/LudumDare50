@@ -16,6 +16,8 @@ public class RaceUIManager : MonoBehaviour
 
    [SerializeField] private TextMeshProUGUI _countdownText;
    [SerializeField] private CanvasGroup _countdownCanvasGroup;
+   [SerializeField] private CanvasGroup _winCanvasGroup;
+   [SerializeField] private CanvasGroup _loseCanvasGroup;
 
    private void Awake()
    {
@@ -37,6 +39,18 @@ public class RaceUIManager : MonoBehaviour
       if (alphaAmount >= 0.0f && alphaAmount <= 1.0f)
       {
          _countdownCanvasGroup.alpha = alphaAmount;
+      }
+   }
+
+   public void SetWinOrLoseText(bool playerWon)
+   {
+      if (playerWon)
+      {
+         _winCanvasGroup.alpha = 1.0f;
+      }
+      else
+      {
+         _loseCanvasGroup.alpha = 1.0f;
       }
    }
 }
