@@ -206,7 +206,15 @@ public class CarController : MonoBehaviour
       }
       else if (Mathf.Abs(_steerAmount) < 0.25f)
       {
-         _forwardInput = _aiFullSpeed;
+         if (_isGrounded)
+         {
+            _forwardInput = _aiFullSpeed;
+         }
+         else
+         {
+            _forwardInput = _aiFullSpeed * 0.5f;
+         }
+         
       }
       _rightInput = _steerAmount;
    }

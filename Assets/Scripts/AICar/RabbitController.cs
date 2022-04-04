@@ -10,13 +10,14 @@ public class RabbitController : MonoBehaviour
    [SerializeField] private float _moveSpeed;
    private int _targetWaypointIndex = 0;
    private float _distanceToCar = 0.0f;
-
+   private Vector3 _forwardVec;
    private bool _canMove = true;
    // Start is called before the first frame update
    void Start()
    {
       _canMove = true;
       _targetWaypointIndex = 0;
+      _forwardVec = new Vector3(0.0f, 0.0f, _moveSpeed);
    }
 
    // Update is called once per frame
@@ -29,7 +30,7 @@ public class RabbitController : MonoBehaviour
       if (_distanceToCar < _maxDistanceFromCar)
       {
          this.transform.LookAt(waypoints[_targetWaypointIndex]);
-         this.transform.Translate(0.0f, 0.0f, _moveSpeed);
+         this.transform.Translate(_forwardVec * Time.deltaTime);
 
          if (Vector3.Distance(this.gameObject.transform.position, waypoints[_targetWaypointIndex].transform.position) < 1.0f)
          {

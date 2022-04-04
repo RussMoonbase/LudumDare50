@@ -19,7 +19,10 @@ public class FinishLineChecker : MonoBehaviour
       }
       else if (other.tag == "AI")
       {
-
+         if (other.GetComponent<CarController>())
+         {
+            other.GetComponent<CarController>().SetCanCarMove(false);
+         }
       }
    }
 
