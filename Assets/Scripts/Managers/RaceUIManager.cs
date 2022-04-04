@@ -19,6 +19,8 @@ public class RaceUIManager : MonoBehaviour
    [SerializeField] private CanvasGroup _winCanvasGroup;
    [SerializeField] private CanvasGroup _loseCanvasGroup;
    [SerializeField] private TextMeshProUGUI _positionText;
+   [SerializeField] private TextMeshProUGUI _finalPositionText;
+   [SerializeField] private TextMeshProUGUI _loseExplanationText;
 
    private void Awake()
    {
@@ -69,5 +71,27 @@ public class RaceUIManager : MonoBehaviour
       {
          _positionText.text = "3/3";
       }
+   }
+
+   public void SetFinalPositionText(int posNum)
+   {
+      if (posNum == 1)
+      {
+         _finalPositionText.text = "1st Place";
+      }
+      else if (posNum == 2)
+      {
+         _finalPositionText.text = "2nd Place";
+      }
+      else if (posNum == 3)
+      {
+         _finalPositionText.text = "3rd Place";
+      }
+      
+   }
+
+   public void SetLoseExplanationText(string explanationStr)
+   {
+      _loseExplanationText.text = explanationStr;
    }
 }

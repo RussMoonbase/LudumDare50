@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PositionCheckpoint : MonoBehaviour
 {
-   public int posCheckpointNum;
+   //public int posCheckpointNum;
 
    //private int _playerPosCheckpointNum;
    //private int _aiCar1PosCheckpointNum;
@@ -12,9 +12,6 @@ public class PositionCheckpoint : MonoBehaviour
    [SerializeField] private float _playerTime;
    [SerializeField] private float _aiCar1Time;
    [SerializeField] private float _aiCar2Time;
-   private PositionChecker _playerPositionChecker;
-   private PositionChecker _aiCar1PositionChecker;
-   private PositionChecker _aiCar2PositionChecker;
 
    // Start is called before the first frame update
    void Start()
@@ -44,20 +41,24 @@ public class PositionCheckpoint : MonoBehaviour
       if (_playerTime - _aiCar1Time < 0.0f && _playerTime - _aiCar2Time < 0.0f)
       {
          RaceUIManager.Instance.SetPositionText(1);
+         RaceManager.Instance.playerPosition = 1;
       }
       else
       {
          if (_playerTime - _aiCar1Time > 0.0f && _playerTime - _aiCar2Time < 0.0f)
          {
             RaceUIManager.Instance.SetPositionText(2);
+            RaceManager.Instance.playerPosition = 2;
          }
          else if (_playerTime - _aiCar1Time < 0.0f && _playerTime - _aiCar2Time > 0.0f)
          {
             RaceUIManager.Instance.SetPositionText(2);
+            RaceManager.Instance.playerPosition = 2;
          }
          else if (_playerTime - _aiCar1Time > 0.0f && _playerTime - _aiCar2Time > 0.0f)
          {
             RaceUIManager.Instance.SetPositionText(3);
+            RaceManager.Instance.playerPosition = 3;
          }
 
       }

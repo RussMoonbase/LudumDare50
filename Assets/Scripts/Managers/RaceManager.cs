@@ -19,12 +19,8 @@ public class RaceManager : MonoBehaviour
    [SerializeField] private int _currentCheckpointNumber = 0;
    [SerializeField] private int _maxCheckpoints;
    [SerializeField] private int _attachedBombsOnPlayer = 8;
-   //public int playerPositionCheckpoint = 0;
-   //public int aiCar1PositionCheckpoint = 0;
-   //public int aiCar2PositionCheckpoint = 0;
-   //public float playerPositionCheckpointTime = 0.0f;
-   //public float aiCar1PositionCheckpointTime = 0.0f;
-   //public float aiCar2PositionCheckpointTime = 0.0f;
+   public ParticleSystem[] playerCarExpolsionEffects;
+   public int playerPosition = 0;
 
    private bool _hasRaceFinished = false;
 
@@ -89,10 +85,29 @@ public class RaceManager : MonoBehaviour
          if (_attachedBombsOnPlayer == 0 && _currentCheckpointNumber == _maxCheckpoints)
          {
             RaceUIManager.Instance.SetWinOrLoseText(true);
+            RaceUIManager.Instance.SetFinalPositionText(playerPosition);
             SoundManager.Instance.PlayWinSoundEffect();
          }
          else
          {
+            if (_attachedBombsOnPlayer > 0)
+            {
+               RaceUIManager.Instance.SetLoseExplanationText("You still have bombs attached!");
+
+               if (playerCarExpolsionEffects.Length == 4)
+               {
+                  playerCarExpolsionEffects[0].Play();
+                  playerCarExpolsionEffects[1].Play();
+                  playerCarExpolsionEffects[2].Play();
+                  playerCarExpolsionEffects[3].Play();
+               }
+            }
+            else
+            {
+               RaceUIManager.Instance.SetLoseExplanationText("You missed a checkpoint...");
+            }
+
+
             RaceUIManager.Instance.SetWinOrLoseText(false);
             SoundManager.Instance.PlayLoseSoundEffect();
          }
