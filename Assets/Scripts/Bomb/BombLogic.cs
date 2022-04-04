@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class BombLogic : MonoBehaviour
 {
-   private bool _fxPlayed = false;
+  // private bool _fxPlayed = false;
    [SerializeField] private ParticleSystem _particleSystem;
    // Start is called before the first frame update
    void Start()
    {
-      _fxPlayed = false;
+
    }
 
    //// Update is called once per frame

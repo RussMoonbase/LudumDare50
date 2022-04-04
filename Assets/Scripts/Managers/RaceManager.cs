@@ -23,6 +23,12 @@ public class RaceManager : MonoBehaviour
    public int playerPosition = 0;
 
    private bool _hasRaceFinished = false;
+   public GameObject playerCarModel;
+   public GameObject playerCarNonMergedModel;
+   public GameObject[] bombModels;
+   public GameObject[] raycastObjects;
+   public Rigidbody[] nonMergedCarModelRigidbodies;
+   private bool _explodeCarRoutineCalled = false;
 
    private void Awake()
    {
@@ -32,6 +38,7 @@ public class RaceManager : MonoBehaviour
    // Start is called before the first frame update
    void Start()
    {
+      _explodeCarRoutineCalled = false;
       _hasRaceFinished = false;
       _currentCheckpointNumber = 0;
       StartCoroutine(CountdownToStartRoutine());
@@ -94,12 +101,10 @@ public class RaceManager : MonoBehaviour
             {
                RaceUIManager.Instance.SetLoseExplanationText("You still have bombs attached!");
 
-               if (playerCarExpolsionEffects.Length == 4)
+               if (!_explodeCarRoutineCalled)
                {
-                  playerCarExpolsionEffects[0].Play();
-                  playerCarExpolsionEffects[1].Play();
-                  playerCarExpolsionEffects[2].Play();
-                  playerCarExpolsionEffects[3].Play();
+                  _explodeCarRoutineCalled = true;
+                  StartCoroutine(ExplodeCarRoutine());
                }
             }
             else
@@ -120,5 +125,39 @@ public class RaceManager : MonoBehaviour
    public void SubtractBombAmount()
    {
       --_attachedBombsOnPlayer;
+   }
+
+   private IEnumerator ExplodeCarRoutine()
+   {
+      yield return new WaitForSeconds(2.0f);
+      ExplodeCar();
+   }
+
+   private void ExplodeCar()
+   {
+      for (int i = 0; i < raycastObjects.Length; i++)
+      {
+         raycastObjects[i].SetActive(false);
+      }
+
+      for (int i = 0; i < playerCarExpolsionEffects.Length; i++)
+      {
+         playerCarExpolsionEffects[i].Play();
+      }
+      SoundManager.Instance.PlayExplosionSoundEffect();
+
+      for (int i = 0; i < bombModels.Length; i++)
+      {
+         bombModels[i].SetActive(false);
+      }
+
+      playerCarModel.SetActive(false);
+      playerCarNonMergedModel.SetActive(true);
+
+      for (int i = 0; i < nonMergedCarModelRigidbodies.Length; i++)
+      {
+         nonMergedCarModelRigidbodies[i].AddExplosionForce(2000.0f, nonMergedCarModelRigidbodies[i].gameObject.transform.position, 5.0f);
+      }
+
    }
 }

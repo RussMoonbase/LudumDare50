@@ -37,6 +37,8 @@ public class CarController : MonoBehaviour
    private float _steerAngle = 0.0f;
    private float _steerAmount = 0.0f;
 
+   private bool _resetDriftPowerroutineCalled = false;
+
    // Start is called before the first frame update
    void Start()
    {
@@ -45,6 +47,7 @@ public class CarController : MonoBehaviour
       _isGrounded = true;
       _canBeLaunched = false;
       _canCarMove = false;
+      _resetDriftPowerroutineCalled = false;
    }
 
    // Update is called once per frame
@@ -187,6 +190,16 @@ public class CarController : MonoBehaviour
       _rigidbody.AddForce(this.transform.forward * 200000.0f, ForceMode.Impulse);
       _rigidbody.AddForce(this.transform.up * 200000.0f, ForceMode.Impulse);
       _driftPower *= 3.0f;
+      if (!_resetDriftPowerroutineCalled)
+      {
+         _resetDriftPowerroutineCalled = true;
+         StartCoroutine(ResetDriftPowerRoutine());
+      }
+   }
+
+   public void ResetDriftPower()
+   {
+      _driftPower = _driftPower / 3.0f;
    }
 
    public void SetCanCarMove(bool booleanValue)
@@ -217,6 +230,12 @@ public class CarController : MonoBehaviour
          
       }
       _rightInput = _steerAmount;
+   }
+
+   private IEnumerator ResetDriftPowerRoutine()
+   {
+      yield return new WaitForSeconds(1.5f);
+      ResetDriftPower();
    }
 
    //private void OnDrawGizmos()
