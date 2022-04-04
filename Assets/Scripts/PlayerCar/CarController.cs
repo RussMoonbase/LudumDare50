@@ -19,6 +19,9 @@ public class CarController : MonoBehaviour
    [SerializeField] private Vector3 _carCenterOfMass;
    [SerializeField] private Transform _rabbitTransform;
 
+   [SerializeField] private float _aiSlowDownSpeed;
+   [SerializeField] private float _aiFullSpeed;
+
    private float _forwardInput;
    private float _rightInput;
 
@@ -195,11 +198,11 @@ public class CarController : MonoBehaviour
       Debug.Log("Steer Amount = " + steerAmount);
       if (Mathf.Abs(steerAmount) > 0.75f)
       {
-         _forwardInput = 0.35f;
+         _forwardInput = _aiSlowDownSpeed;
       }
       else if (Mathf.Abs(steerAmount) < 0.25f)
       {
-         _forwardInput = 0.85f;
+         _forwardInput = _aiFullSpeed;
       }
       _rightInput = steerAmount;
    }

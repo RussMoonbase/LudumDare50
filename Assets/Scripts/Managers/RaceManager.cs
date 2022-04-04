@@ -17,6 +17,7 @@ public class RaceManager : MonoBehaviour
    public UnityEvent RaceStarted = new UnityEvent();
    public UnityEvent RaceFinished = new UnityEvent();
    [SerializeField] private int _currentCheckpointNumber = 0;
+   [SerializeField] private int _maxCheckpoints;
    [SerializeField] private int _attachedBombsOnPlayer = 8;
    private bool _hasRaceFinished = false;
 
@@ -78,7 +79,7 @@ public class RaceManager : MonoBehaviour
       {
          _hasRaceFinished = true;
 
-         if (_attachedBombsOnPlayer == 0)
+         if (_attachedBombsOnPlayer == 0 && _currentCheckpointNumber == _maxCheckpoints)
          {
             RaceUIManager.Instance.SetWinOrLoseText(true);
             SoundManager.Instance.PlayWinSoundEffect();

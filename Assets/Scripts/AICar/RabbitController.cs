@@ -5,6 +5,7 @@ using UnityEngine;
 public class RabbitController : MonoBehaviour
 {
    public Transform[] waypoints;
+   [SerializeField] private float _xOffset;
    [SerializeField] private Transform _aiCarTransform;
    [SerializeField] private float _maxDistanceFromCar;
    [SerializeField] private float _moveSpeed;
@@ -29,7 +30,7 @@ public class RabbitController : MonoBehaviour
       if (_distanceToCar < _maxDistanceFromCar)
       {
          this.transform.LookAt(waypoints[_targetWaypointIndex]);
-         this.transform.Translate(0.0f, 0.0f, _moveSpeed);
+         this.transform.Translate(_xOffset, 0.0f, _moveSpeed);
 
          if (Vector3.Distance(this.gameObject.transform.position, waypoints[_targetWaypointIndex].transform.position) < 1.0f)
          {
