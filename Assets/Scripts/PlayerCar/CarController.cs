@@ -56,7 +56,7 @@ public class CarController : MonoBehaviour
          {
             if (!_canBeLaunched)
             {
-               _forwardInput = Input.GetAxis("Vertical") * 0.2f;
+               _forwardInput = Input.GetAxis("Vertical") * 0.35f;
             }
 
          }
@@ -192,6 +192,7 @@ public class CarController : MonoBehaviour
       Vector3 relative = transform.InverseTransformPoint(_rabbitTransform.position);
       float steerAngle = Mathf.Atan2(relative.x, relative.z) * Mathf.Rad2Deg;
       float steerAmount = Mathf.Clamp(steerAngle * 0.5f, -1.0f, 1.0f);
+      Debug.Log("Steer Amount = " + steerAmount);
       if (Mathf.Abs(steerAmount) > 0.75f)
       {
          _forwardInput = 0.35f;
