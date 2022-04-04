@@ -20,6 +20,9 @@ public class SoundManager : MonoBehaviour
    [SerializeField] private AudioClip _goAudioClip;
    [SerializeField] private AudioClip _winAudioClip;
    [SerializeField] private AudioClip _loseAudioClip;
+   [SerializeField] private AudioSource _explosionAudioSource;
+
+   private float _randomPitch;
    public static SoundManager Instance
    {
       get
@@ -72,6 +75,16 @@ public class SoundManager : MonoBehaviour
    {
       SetSoundFxAudioClip(SoundFxNames.Lose);
       PlaySoundEffect();
+   }
+
+   public void PlayExplosionSoundEffect()
+   {
+      if (_explosionAudioSource.isPlaying)
+         return;
+
+      _randomPitch = Random.Range(0.95f, 1.1f);
+      _explosionAudioSource.pitch = _randomPitch;
+      _explosionAudioSource.Play();
    }
 
 }

@@ -33,6 +33,10 @@ public class CarController : MonoBehaviour
 
    private bool _canCarMove = false;
 
+   private Vector3 _relativeVec;
+   private float _steerAngle = 0.0f;
+   private float _steerAmount = 0.0f;
+
    // Start is called before the first frame update
    void Start()
    {
@@ -88,12 +92,12 @@ public class CarController : MonoBehaviour
       }
       else
       {
-         Debug.Log("IS Ai CAr");
-         _forwardInput = 0.75f;
+         //Debug.Log("IS Ai CAr");
+         //_forwardInput = 0.75f;
 
          if (_rabbitTransform)
          {
-            UpdateAiCarSteering();
+            UpdateAiCarControl();
          }
       }
 
@@ -190,21 +194,21 @@ public class CarController : MonoBehaviour
       _canCarMove = booleanValue;
    }
 
-   private void UpdateAiCarSteering()
+   private void UpdateAiCarControl()
    {
-      Vector3 relative = transform.InverseTransformPoint(_rabbitTransform.position);
-      float steerAngle = Mathf.Atan2(relative.x, relative.z) * Mathf.Rad2Deg;
-      float steerAmount = Mathf.Clamp(steerAngle * 0.5f, -1.0f, 1.0f);
-      Debug.Log("Steer Amount = " + steerAmount);
-      if (Mathf.Abs(steerAmount) > 0.75f)
+      _relativeVec = transform.InverseTransformPoint(_rabbitTransform.position);
+      _steerAngle = Mathf.Atan2(_relativeVec.x, _relativeVec.z) * Mathf.Rad2Deg;
+      _steerAmount = Mathf.Clamp(_steerAngle * 0.5f, -1.0f, 1.0f);
+      //Debug.Log("Steer Amount = " + steerAmount);
+      if (Mathf.Abs(_steerAmount) > 0.75f)
       {
          _forwardInput = _aiSlowDownSpeed;
       }
-      else if (Mathf.Abs(steerAmount) < 0.25f)
+      else if (Mathf.Abs(_steerAmount) < 0.25f)
       {
          _forwardInput = _aiFullSpeed;
       }
-      _rightInput = steerAmount;
+      _rightInput = _steerAmount;
    }
 
    //private void OnDrawGizmos()

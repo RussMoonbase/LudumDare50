@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class BombLogic : MonoBehaviour
 {
+   private bool _fxPlayed = false;
+   [SerializeField] private ParticleSystem _particleSystem;
    // Start is called before the first frame update
    void Start()
    {
-
+      _fxPlayed = false;
    }
 
    //// Update is called once per frame
@@ -20,10 +22,21 @@ public class BombLogic : MonoBehaviour
    {
       Debug.Log("Bomb Hit Something");
       this.gameObject.transform.parent = other.transform;
+      RaceManager.Instance.SubtractBombAmount();
 
+      SoundManager.Instance.PlayExplosionSoundEffect();
+
+      if (_particleSystem)
+      {
+         if(!_particleSystem.isPlaying)
+         {
+            Debug.Log("Explosion Played");
+            _particleSystem.Play();
+         }
+         
+      }
       if (other.GetComponent<Rigidbody>())
       {
-         RaceManager.Instance.SubtractBombAmount();
          Rigidbody rBody = other.GetComponent<Rigidbody>();
          rBody.isKinematic = false;
          rBody.AddExplosionForce(2000.0f, other.transform.position, 5.0f);

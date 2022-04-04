@@ -46,11 +46,11 @@ public class RaceManager : MonoBehaviour
       SoundManager.Instance.PlaySoundEffect();
       RaceUIManager.Instance.SetCountDownText("3");
       yield return new WaitForSeconds(1.0f);
-      SoundManager.Instance.PlaySoundEffect();
       RaceUIManager.Instance.SetCountDownText("2");
-      yield return new WaitForSeconds(1.0f);
       SoundManager.Instance.PlaySoundEffect();
+      yield return new WaitForSeconds(1.0f);
       RaceUIManager.Instance.SetCountDownText("1");
+      SoundManager.Instance.PlaySoundEffect();
       yield return new WaitForSeconds(1.0f);
       SoundManager.Instance.SetSoundFxAudioClip(SoundManager.SoundFxNames.Go);
       SoundManager.Instance.PlaySoundEffect();
