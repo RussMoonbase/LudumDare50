@@ -10,7 +10,8 @@ public class EngineSoundContrller : MonoBehaviour
    [SerializeField] private AudioSource _engineAudioSource2;
    [SerializeField] private CarController _carController;
 
-
+   private float _audioInverseLerp = 0.0f;
+   private float _pitchLerp = 0.0f;
    // Start is called before the first frame update
    void Start()
    {
@@ -34,6 +35,7 @@ public class EngineSoundContrller : MonoBehaviour
          float testInverseLerp = Mathf.InverseLerp(engineCurve.keys[1].time, engineCurve.keys[2].time, _carController.GetCurrentSpeed() / 524.0f);
          float testLerp = Mathf.Lerp(0.6f, 1.0f, testInverseLerp);
          _engineAudioSource2.pitch = testLerp;
+         //ChangeEnginePitch(1, 2, _engineAudioSource2);
       }
       else if (curveValue == 2.0f)
       {
@@ -47,6 +49,7 @@ public class EngineSoundContrller : MonoBehaviour
          float testInverseLerp = Mathf.InverseLerp(engineCurve.keys[2].time, engineCurve.keys[3].time, _carController.GetCurrentSpeed() / 524.0f);
          float testLerp = Mathf.Lerp(0.6f, 1.0f, testInverseLerp);
          _engineAudioSource1.pitch = testLerp;
+         //ChangeEnginePitch(2, 3, _engineAudioSource1);
       }
       else if (curveValue == 3.0f)
       {
@@ -60,7 +63,15 @@ public class EngineSoundContrller : MonoBehaviour
          float testInverseLerp = Mathf.InverseLerp(engineCurve.keys[3].time, engineCurve.keys[4].time, _carController.GetCurrentSpeed() / 524.0f);
          float testLerp = Mathf.Lerp(0.6f, 1.0f, testInverseLerp);
          _engineAudioSource2.pitch = testLerp;
+         //ChangeEnginePitch(3, 4, _engineAudioSource2);
       }
 
+   }
+
+   private void ChangeEnginePitch(int index1, int index2, AudioSource aSource)
+   {
+      _audioInverseLerp = Mathf.InverseLerp(engineCurve.keys[index1].time, engineCurve.keys[index2].time, _carController.GetCurrentSpeed() / 524.0f);
+      _pitchLerp = Mathf.Lerp(0.6f, 1.0f, _audioInverseLerp);
+      _engineAudioSource2.pitch = _pitchLerp;
    }
 }
