@@ -17,7 +17,7 @@ public class FinishLineChecker : MonoBehaviour
          RaceManager.Instance.FinishLineHitByPlayer();
          
       }
-      else if (other.tag == "AI")
+      else if (other.tag == "AI_Car_1" || other.tag == "AI_Car_2")
       {
          if (other.GetComponent<CarController>())
          {

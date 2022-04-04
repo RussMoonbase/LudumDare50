@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - AI
+  - AI_Car_1
+  - AI_Car_2
   layers:
   - Default
   - TransparentFX
@@ -17,7 +19,7 @@ TagManager:
   - Bomb
   - Defuser
   - AI
-  - 
+  - Position
   - 
   - 
   - 

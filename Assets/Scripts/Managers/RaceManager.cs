@@ -19,6 +19,13 @@ public class RaceManager : MonoBehaviour
    [SerializeField] private int _currentCheckpointNumber = 0;
    [SerializeField] private int _maxCheckpoints;
    [SerializeField] private int _attachedBombsOnPlayer = 8;
+   //public int playerPositionCheckpoint = 0;
+   //public int aiCar1PositionCheckpoint = 0;
+   //public int aiCar2PositionCheckpoint = 0;
+   //public float playerPositionCheckpointTime = 0.0f;
+   //public float aiCar1PositionCheckpointTime = 0.0f;
+   //public float aiCar2PositionCheckpointTime = 0.0f;
+
    private bool _hasRaceFinished = false;
 
    private void Awake()
